@@ -54,6 +54,19 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
     growing = false;
     size++;
   }
+  if (size >= 4 && distroying){
+      // Remove the 4elements from the vector.
+      if (body.size() >= 4)
+      body.erase(body.begin(), body.begin()+4);
+      else body.clear();
+      //body.clear();
+      //alive = false;
+     
+      distroying = false;
+      size-=4;
+
+    
+  }
 
   // Check if the snake has died.
   for (auto const &item : body) {
@@ -64,6 +77,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
 }
 
 void Snake::GrowBody() { growing = true; }
+void Snake::DistroyBody() { distroying = true; } //deleting body flag
 
 // Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeCell(int x, int y) {
@@ -77,3 +91,6 @@ bool Snake::SnakeCell(int x, int y) {
   }
   return false;
 }
+
+
+

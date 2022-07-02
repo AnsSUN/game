@@ -4,9 +4,31 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 
 <img src="snake_game.gif"/>
 
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
+## Files added to Capstone Snake Game
+I added new class foodnbomb for food and bomb. Food for snake to grow one point and bomb to destroy by 4 points,
+Food is green color and bomb is red in color. Messages will be displayed on the terminal about the ststus of the snake. Snake will die if there is no body remaining after going through the bomb.
+The scores, fps, number of food that ate by snake, number of bombs through by snake will be shown on window title.
 
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+
+## Files and structure of class FoodnBomb
+There are two files for class FoodnBomb, the base class (foodnbomb.h) and foodnbomb.cpp.
+In the FoodnBomb.h file there are enum variable called Flag_type, declare of attributes and methods of foodnbomb class i.e Checkflag(), Setflag(), Count(), GetCount(), Distroy(), food_body, bomb_body, _flag_type, _count, _count_food, _count_bomb and string of messages. Methodsare defined in foodnbomb.cpp.
+
+
+## After adding the feature in the game
+1. There are two points on the screen which represents food(green in color) and bomb(red in color).
+2. Snake will expand one point/ pixel as it will eat the food and contract by 4 points/pixels if gone through a bomb.
+3. Food and bomb positions are place randomly in the gaming screen.
+4. Score will increase by one when it eats food and decrease by 4 when go through a bomb.
+5. If the body of snake is distroyed by the bomb, snake will die.
+6. Snake will die if its eat their own body.
+
+## Rubric points that are addresed:
+1. Point number one in table "Loops, Functions, I/O", 
+   Implemented in foodnbomb.cpp (line 4 - 37), foodnbomb.h (line 17 - 32), game.h (line 20 - 37), snake.h (line 19 - 20), the functions/method called in game.cpp (line 55 - 85, 95 - 123, 128 - 134), in snake.cpp (line 57 - 66, line 77), renderer.cpp (line 57 - 62).
+2. Point number 1 to 8 in table "Object Oriented Programming",
+   Implemented in foodnbomb.h (all lines) and foodnbomb.cpp(all lines).
+   
 
 ## Dependencies for Running Locally
 * cmake >= 3.7

@@ -5,7 +5,9 @@
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
+#include "foodnbomb.h"
 #include "snake.h"
+
 
 class Game {
  public:
@@ -14,10 +16,15 @@ class Game {
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
+  //int GetCount();
+
+  int GetFoodCount();
+  int GetBombCount();
 
  private:
   Snake snake;
-  SDL_Point food;
+  FoodnBomb food;
+  FoodnBomb bomb;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -27,6 +34,7 @@ class Game {
   int score{0};
 
   void PlaceFood();
+  void PlaceBomb();
   void Update();
 };
 

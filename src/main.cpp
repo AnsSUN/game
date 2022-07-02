@@ -3,6 +3,7 @@
 #include "game.h"
 #include "renderer.h"
 
+
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
@@ -18,5 +19,7 @@ int main() {
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
+  std::cout << "Foods#: " << game.GetFoodCount() << "\n";
+  std::cout << "Bombs#: " << game.GetBombCount() << "\n";
   return 0;
 }

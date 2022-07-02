@@ -1,6 +1,8 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "foodnbomb.cpp"
+
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -25,7 +27,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, bomb);
 
     frame_end = SDL_GetTicks();
 
@@ -36,7 +38,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(score, frame_count, food.GetCount(), bomb.GetCount());
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -58,8 +60,25 @@ void Game::PlaceFood() {
     // Check that the location is not occupied by a snake item before placing
     // food.
     if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
+      food.food_body.x = x;
+      food.food_body.y = y;
+      food.Setflag(Flag_type::green);
+      return;
+    }
+  }
+}
+
+void Game::PlaceBomb(){
+  int x, y;
+  while (true) {
+    x = random_w(engine);
+    y = random_h(engine);
+    // Check the location is not occupied by a snake item before placing
+    // bomb.
+    if (!snake.SnakeCell(x, y)) {
+      bomb.bomb_body.x = x;
+      bomb.bomb_body.y = y;
+      bomb.Setflag(Flag_type::red);
       return;
     }
   }
@@ -74,14 +93,42 @@ void Game::Update() {
   int new_y = static_cast<int>(snake.head_y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
+  if (food.food_body.x == new_x && food.food_body.y == new_y) {
+    
     PlaceFood();
+    food.Display_on_screen(food.Checkflag());
+    food.Count();
+    score++;
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
+  }
+
+  // Check if there's bomb over here
+  if (bomb.bomb_body.x == new_x && bomb.bomb_body.y == new_y) {
+    PlaceBomb();
+    bomb.Display_on_screen(bomb.Checkflag());
+    bomb.Count();
+    // check if food is eaten to decrease the length of snake.
+    if (food.GetCount() > 0) food.Distroy(); 
+    if(score > 0) --score;
+    snake.DistroyBody();
+    //No more snake
+    if(bomb.GetCount()+3 > food.GetCount() || snake.size < 4) {
+      std::cout<< " Snake dead, don't go on bombs!"<<"\n";
+      snake.alive = false;
+    }
+
   }
 }
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+
+int Game :: GetFoodCount(){
+  return food.GetCount();
+}
+
+int Game::GetBombCount(){
+  return bomb.GetCount();
+}
